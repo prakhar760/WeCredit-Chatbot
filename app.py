@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 from groq import Groq
+from flask_cors import CORS  # ✅ Allows frontend to communicate with backend
 import os
 
 app = Flask(__name__)
+CORS(app)  # ✅ Enable CORS to allow frontend requests
 
 # Load API key
 api_key = "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"
@@ -26,13 +28,13 @@ def chat():
         if not user_message:
             return jsonify({"error": "Message is required"}), 400
 
-        # Make a request to Groq API
+        # ✅ Make a request to Groq API
         chat_completion = client.chat.completions.create(
             messages=[
                 {"role": "system", "content": "You are a chatbot in a company, WeCredit. Services provided by WeCredit: Personal loan, Credit Card, Business loan. You have foundational knowledge of key financial concepts, specifically in areas such as loans, credit reports, interest rates in India"},
                 {"role": "user", "content": user_message}
             ],
-            model="llama-3.3-70b-versatile",  # Correct model
+            model="llama-3.3-70b-versatile",  # ✅ Correct model
             # max_tokens=500
         )
 
